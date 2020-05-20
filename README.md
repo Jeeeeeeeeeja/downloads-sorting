@@ -3,4 +3,3 @@
  ToDo: <br>
 	Unix systems support<br>
 	Parse more file extensions<br>
-	Add autorun<br>
