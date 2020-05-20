@@ -2,25 +2,27 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import os
 import re
+import getpass
 import time
 import shutil
 
 
 source = ''
-username = os.getlogin()
 if os.name == 'nt':
+    username = os.getlogin()
     path = f'C:\\Users\\{username}\\Downloads'
     picturepath = f'C:\\Users\\{username}\\Pictures'
     videospath = f'C:\\Users\\{username}\\Videos'
     audiospath = f'C:\\Users\\{username}\\Music'
     docspath = f'C:\\Users\\{username}\\Documents'
-elif os.name == ('mac' or 'posix'):
+elif os.name == 'mac' or os.name == 'posix':
+    username = getpass.getuser()
     with open('settings.txt', 'r') as file:
-        downloads_name = file.readline(0)[:-2]
-        pictures_name = file.readline(1)[:-2]
-        videos_name = file.readline(2)[:-2]
-        music_name = file.readline(3)[:-2]
-        docs_name = file.readline(4)
+        downloads_name = file.readline()[:-1]
+        pictures_name = file.readline()[:-1]
+        videos_name = file.readline()[:-1]
+        music_name = file.readline()[:-1]
+        docs_name = file.readline()
     path = f'/home/{username}/{downloads_name}'
     picturepath = f'/home/{username}/{pictures_name}'
     videospath = f'/home/{username}/{videos_name}'
@@ -28,11 +30,11 @@ elif os.name == ('mac' or 'posix'):
     docspath = f'/home/{username}/{docs_name}'
 else:
     with open('settings.txt', 'r') as file:
-        path = file.readline(0)[:-2]
-        picturepath = file.readline(1)[:-2]
-        videospath = file.readline(2)[:-2]
-        audiospath = file.readline(3)[:-2]
-        docspath = file.readline(4)
+        path = file.readline()[:-2]
+        picturepath = file.readline()[:-2]
+        videospath = file.readline()[:-2]
+        audiospath = file.readline()[:-2]
+        docspath = file.readline()
 
 
 def pictures(source):
@@ -90,11 +92,20 @@ file_ext_dict = {
 class Handler(FileSystemEventHandler):
 
     def on_modified(self, event):
-        try:
-            extension = re.findall(r'\.\w*', event.src_path)[0]
-            file_ext_dict[extension](event.src_path)
-        except TypeError:
-            pass
+        if os.name == 'nt':
+            try:
+                extension = re.findall(r'\.\w*', event.src_path)[0]
+                file_ext_dict[extension](event.src_path)
+            except TypeError:
+                pass
+        elif os.name == 'posix' or os.name == 'mac':
+            for filename in os.listdir(path):
+                try:
+                    file = os.path.join(path, filename)
+                    extension = re.findall(r'\.\w*', file)[0]
+                    file_ext_dict[extension](event.src_path)
+                except TypeError:
+                    pass
 
 
 observer = Observer()
