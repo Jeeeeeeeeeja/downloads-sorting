@@ -1,8 +1,8 @@
 # downloads-sorting
 Python script which tries to sort downloads <br>
-# ToDo
-Unix systems support
-GUI and tray menu  
+# ToDo  
+Telegram bot as interface   
+Add functionality  
 Parse more file extensions  
 # Instructions
 Run sorting_tool.exe and it will run the background process  
