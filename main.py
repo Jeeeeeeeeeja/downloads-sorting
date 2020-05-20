@@ -62,14 +62,19 @@ file_ext_dict = {
     '.css': documents,
     '.xlsx': documents,
     '.xls': documents,
-    '.cs': documents
+    '.cs': documents,
+    '.tmp': time.sleep(0.1)
 }
 
 
 class Handler(FileSystemEventHandler):
-    def on_created(self, event):
-        extension = re.findall(r'\.\w*', event.src_path)[0]
-        file_ext_dict[extension](event.src_path)
+
+    def on_modified(self, event):
+        try:
+            extension = re.findall(r'\.\w*', event.src_path)[0]
+            file_ext_dict[extension](event.src_path)
+        except TypeError:
+            pass
 
 
 observer = Observer()
@@ -77,7 +82,7 @@ observer.schedule(Handler(), path=path, recursive=False)
 observer.start()
 try:
     while True:
-        time.sleep(0.1)
+        time.sleep(1)
 except KeyboardInterrupt:
     observer.stop()
 observer.join()
