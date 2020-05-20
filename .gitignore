@@ -12,3 +12,5 @@
 __pycache__/
 # Distribution / packaging
 build/
+# Spec file
+main.spec
