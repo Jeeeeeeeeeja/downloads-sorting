@@ -1,6 +1,6 @@
 # downloads-sorting
- Python script which tries to sort downloads
- ToDo:
-	Unix systems support
-	Parse more file extensions
-	Add autorun
+ Python script which tries to sort downloads <br>
+ ToDo: <br>
+	Unix systems support<br>
+	Parse more file extensions<br>
+	Add autorun<br>
