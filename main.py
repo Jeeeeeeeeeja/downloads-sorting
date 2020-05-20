@@ -8,11 +8,31 @@ import shutil
 
 source = ''
 username = os.getlogin()
-path = f'C:\\Users\\{username}\\Downloads'
-picturepath = f'C:\\Users\\{username}\\Pictures'
-videospath = f'C:\\Users\\{username}\\Videos'
-audiospath = f'C:\\Users\\{username}\\Music'
-docspath = f'C:\\Users\\{username}\\Documents'
+if os.name == 'nt':
+    path = f'C:\\Users\\{username}\\Downloads'
+    picturepath = f'C:\\Users\\{username}\\Pictures'
+    videospath = f'C:\\Users\\{username}\\Videos'
+    audiospath = f'C:\\Users\\{username}\\Music'
+    docspath = f'C:\\Users\\{username}\\Documents'
+elif os.name == ('mac' or 'posix'):
+    with open('settings.txt', 'r') as file:
+        downloads_name = file.readline(0)[:-2]
+        pictures_name = file.readline(1)[:-2]
+        videos_name = file.readline(2)[:-2]
+        music_name = file.readline(3)[:-2]
+        docs_name = file.readline(4)
+    path = f'/home/{username}/{downloads_name}'
+    picturepath = f'/home/{username}/{pictures_name}'
+    videospath = f'/home/{username}/{videos_name}'
+    audiospath = f'/home/{username}/{music_name}'
+    docspath = f'/home/{username}/{docs_name}'
+else:
+    with open('settings.txt', 'r') as file:
+        path = file.readline(0)[:-2]
+        picturepath = file.readline(1)[:-2]
+        videospath = file.readline(2)[:-2]
+        audiospath = file.readline(3)[:-2]
+        docspath = file.readline(4)
 
 
 def pictures(source):
