@@ -28,13 +28,6 @@ elif os.name == 'mac' or os.name == 'posix':
     videospath = f'/home/{username}/{videos_name}'
     audiospath = f'/home/{username}/{music_name}'
     docspath = f'/home/{username}/{docs_name}'
-else:
-    with open('settings.txt', 'r') as file:
-        path = file.readline()[:-2]
-        picturepath = file.readline()[:-2]
-        videospath = file.readline()[:-2]
-        audiospath = file.readline()[:-2]
-        docspath = file.readline()
 
 
 def pictures(source):
@@ -104,7 +97,7 @@ class Handler(FileSystemEventHandler):
                     file = os.path.join(path, filename)
                     extension = re.findall(r'\.\w*', file)[0]
                     file_ext_dict[extension](event.src_path)
-                except TypeError:
+                except KeyError or TypeError:
                     pass
 
 
