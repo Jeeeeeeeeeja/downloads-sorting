@@ -1,7 +1,6 @@
 # downloads-sorting
 Python script which tries to sort downloads <br>
 # ToDo  
-Telegram bot as interface   
 Add functionality  
 Parse more file extensions  
 # Instructions
